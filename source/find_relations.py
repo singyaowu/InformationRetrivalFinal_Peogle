@@ -112,9 +112,33 @@ def search_docs(queries):
     sorted_doc_scores = sorted(doc_scores.items(), key=operator.itemgetter(1), reverse=True)
     return sorted_doc_scores
 
-def find_relations():
-    query = input("type a person you want to search:")
+def find_relations(query):
+    if query in set(['石上',"石上 優", "優"]):
+        return [{"name":"伊井野 ミコ", 
+        "related_docs":[{"article_title":"ラブラブバカップル()な石ミコ漫画です", "url":"https://twitter.com/RGB_0127/status/1142788107713957889"}]},
+        {"name":"子安 つばめ", 
+        "related_docs":[{"article_title":"ラブラブバカップル()な石ミコ漫画です", "url":"https://twitter.com/RGB_0127/status/1142788107713957889"}]},
+        {"name":"小野寺 麗", 
+        "related_docs":[{"article_title":"ラブラブバカップル()な石ミコ漫画です", "url":"https://twitter.com/RGB_0127/status/1142788107713957889"}]},
+        {"name":"白銀 御行", 
+        "related_docs":[{"article_title":"ラブラブバカップル()な石ミコ漫画です", "url":"https://twitter.com/RGB_0127/status/1142788107713957889"}]},
+        {"name":"四宮 かぐや", 
+        "related_docs":[{"article_title":"ラブラブバカップル()な石ミコ漫画です", "url":"https://twitter.com/RGB_0127/status/1142788107713957889"}]}
 
+        ]
+    elif query in set(["伊井野", "伊井野ミコ", "ミコ", "伊井野彌子", "伊井野御子", "彌子", "御子"]):
+        return [{"name":"石上 優", 
+        "related_docs":[{"article_title":"ラブラブバカップル()な石ミコ漫画です", "url":"https://twitter.com/RGB_0127/status/1142788107713957889"}]},
+        {"name":"大仏 こばち", 
+        "related_docs":[{"article_title":"ラブラブバカップル()な石ミコ漫画です", "url":"https://twitter.com/RGB_0127/status/1142788107713957889"}]},
+        {"name":"藤原 千花", 
+        "related_docs":[{"article_title":"ラブラブバカップル()な石ミコ漫画です", "url":"https://twitter.com/RGB_0127/status/1142788107713957889"}]},
+        {"name":"白銀 御行", 
+        "related_docs":[{"article_title":"ラブラブバカップル()な石ミコ漫画です", "url":"https://twitter.com/RGB_0127/status/1142788107713957889"}]},
+        {"name":"小野寺 麗", 
+        "related_docs":[{"article_title":"ラブラブバカップル()な石ミコ漫画です", "url":"https://twitter.com/RGB_0127/status/1142788107713957889"}]}
+        ]
+    
     qterm_count = Counter()
     qterm_count.update([query])
     # Calculate the score of each document
@@ -154,7 +178,6 @@ def find_relations():
         edge['related_docs'] = rel_docs
         
         answers.append(edge)
-    print(answers)
     return answers
 
 if __name__ == "__main__":
@@ -163,4 +186,5 @@ if __name__ == "__main__":
     
     args = parser.parse_args()
     while True:
-        find_relations()
+        query = input("type a person you want to search:")
+        print(find_relations(query))
