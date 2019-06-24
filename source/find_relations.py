@@ -7,7 +7,6 @@ from collections import Counter
 import numpy as np
 import pandas as pd
 #import jieba
-from helper import *
 
 def okapi_normalization(tf, doc_length, doc_cnt):
     norm_tf = tf
@@ -42,8 +41,8 @@ def rocchio(query, doc_id, doc):
     c = 0.1
 
     new_query = query
-    rel_size = 20
-    irrel_size = 20
+    rel_size = 100
+    irrel_size = 100
 
     if len(doc_id) < rel_size: return query
     rel_id = [doc_id[i][0] for i in range(rel_size)]
@@ -100,16 +99,16 @@ INV_FILE, IDF, corpus, NORM_TF, TF = init()
 
 def search_docs(queries):
     qterm_count = Counter()
-    qterm_count.update(queries)
+    qterm_count.update(queries + [queries[1]])
     # Calculate the score of each document
     doc_scores = score_calculating(qterm_count, INV_FILE, IDF, NORM_TF)
         
     # Sort the document score pair by the score
     sorted_doc_scores = sorted(doc_scores.items(), key=operator.itemgetter(1), reverse=True)
-    qterm_count = rocchio(qterm_count, sorted_doc_scores, TF)
+    #qterm_count = rocchio(qterm_count, sorted_doc_scores, TF)
     # Calculate the scores and Sort them
-    doc_scores = score_calculating(qterm_count, INV_FILE, IDF, NORM_TF)
-    sorted_doc_scores = sorted(doc_scores.items(), key=operator.itemgetter(1), reverse=True)
+    #doc_scores = score_calculating(qterm_count, INV_FILE, IDF, NORM_TF)
+    #sorted_doc_scores = sorted(doc_scores.items(), key=operator.itemgetter(1), reverse=True)
     return sorted_doc_scores
 
 def find_relations(query):
@@ -159,9 +158,10 @@ def find_relations(query):
         for prev_name in prev_names:
             if name in prev_name: invalid_name = True
         if invalid_name: continue
-        print(name)
         prev_names.append(name)
         if len(prev_names) > 6: break
+        print(name)
+        
         edge = {}
         rel_query = [query, name]
         doc_ids = search_docs(rel_query)
