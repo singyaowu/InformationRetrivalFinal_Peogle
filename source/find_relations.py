@@ -161,7 +161,7 @@ def find_relations(query):
         if invalid_name: continue
         print(name)
         prev_names.append(name)
-        if len(prev_names) > 5: break
+        if len(prev_names) > 6: break
         edge = {}
         rel_query = [query, name]
         doc_ids = search_docs(rel_query)

@@ -30,28 +30,32 @@ punctuation = set([
 ])
 
 for doc_idx, doc in enumerate(corpus['articles']):
-    #print("doc_id", doc_id)
     doc_id = str(doc_idx)
-    for term in doc['article_tf']:
-        count = doc['article_tf'][term]
-        if term in punctuation: continue
-        if not isName(term): continue
-        
-        if term not in INV_FILE.keys():
-            INV_FILE[term] = []
-        INV_FILE[term].append(doc_id)
+    if doc_idx % 1000 == 0:
+        print("doc_id", doc_id)
+    try:
+        for term in doc['article_tf']:
+            count = doc['article_tf'][term]
+            if term in punctuation: continue
+            if not isName(term): continue
+            
+            if term not in INV_FILE.keys():
+                INV_FILE[term] = []
+            INV_FILE[term].append(doc_id)
 
-        if doc_id not in TF.keys():
-            TF[doc_id] = {}
-        TF[doc_id][term] = count
-        if doc_id not in DOC_LENGTH.keys():
-            DOC_LENGTH[doc_id] = 0
-        DOC_LENGTH[doc_id] += count
+            if doc_id not in TF.keys():
+                TF[doc_id] = {}
+            TF[doc_id][term] = count
+            if doc_id not in DOC_LENGTH.keys():
+                DOC_LENGTH[doc_id] = 0
+            DOC_LENGTH[doc_id] += count
 
-        if term not in IDF.keys():
-            IDF[term] = 0
-        IDF[term] += 1
-
+            if term not in IDF.keys():
+                IDF[term] = 0
+            IDF[term] += 1
+    except: 
+        print(doc_idx, doc)
+        #exit(1)
         #print(term)
 
 N = len(corpus['articles'])
